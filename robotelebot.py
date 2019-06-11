@@ -70,6 +70,8 @@ def start(bot, update):
 def callback_timer(bot, update):
     bot.send_message(chat_id=chatik,
                      text=check_param)
+    bot.send_message(chat_id=chatik,
+                     text=webstatus)
 
 # рассказывает о ботах
 def botsstate(bot, update):
