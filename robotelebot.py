@@ -74,7 +74,7 @@ def callback_timer(bot, update):
 # рассказывает о ботах
 def botsstate(bot, update):
     bot.send_message(chat_id=chatik,
-                     text=botsstate)
+                     text=about_bot)
 
 # просто пишет сообщения о ботах, операциях и сайтах
 
