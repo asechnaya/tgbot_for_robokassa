@@ -1,9 +1,0 @@
-﻿var face = {
-	onBegin: function (waitId, dataId) {
-		var divW = $("#" + waitId);
-		var divD = $("#" + dataId);
-
-		divW.removeClass("hidden").addClass("show");
-		divD.removeClass("show").addClass("hidden");
-	}
-};
