@@ -54,7 +54,7 @@ def BotStateStatus(botsstate_all):
     botstate_status.append(botsstate_all[4:6])
     botstate_status.append(botsstate_all[(len(botsstate_all)) - 2:(len(botsstate_all))])
     for item in botstate_status:
-        if (' работает  ' or ' работает  ' or ' работает') in item:
+        if (' работает  ') or (' работает  ') or (' работает') in item:
             pass
         elif ('медленно') or (' медленно ') or ('медленно ') in item:
             botstate_text = botstate_text.join('ОК, но ' + item[0] + item[1]+'😢')
