@@ -4,7 +4,9 @@
 pfx_path = 'название.pfx'<br> 
 pfx_password = 'кодовое слово из цифр'
 </span>
+---
 
+Для запуска бота: _robotelebot.py_
 
 --- 
 
