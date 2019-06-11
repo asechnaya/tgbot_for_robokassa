@@ -8,7 +8,7 @@ import datetime
 import scoring
 from operations import OperationSts
 from parametres import Robowebsites
-from payment_status import payment_state, payment_state_check
+from payment_status import payment_state
 
 
 # Логгирование
