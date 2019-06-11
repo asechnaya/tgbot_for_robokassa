@@ -1,0 +1,15 @@
+telegram
+
+requests==2.21.0
+requests-oauthlib==1.2.0
+text-unidecode==1.2
+urllib3==1.24.1
+bleach==3.1.0
+bs4
+beautifulsoup4
+
+
+pytelegrambotapi
+python-telegram-bot
+schedule
+pyOpenSSL

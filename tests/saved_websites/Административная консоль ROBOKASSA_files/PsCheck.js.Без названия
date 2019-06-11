@@ -1,0 +1,6 @@
+﻿function onBegin(id)
+{
+	var row = $("#" + id);
+	$("td:nth-child(4)", row).empty().text("обновление...").css("color", "blue");
+	$("td:nth-child(5)", row).empty().text("checking");
+}
