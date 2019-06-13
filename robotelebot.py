@@ -10,13 +10,11 @@ from operations import OperationSts
 from parametres import Robowebsites
 from payment_status import payment_state
 
-
 # Логгирование
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
                     filename='bot.log'
                     )
-
 
 #-------------------------------------------
 operations_p = scoring.operations
@@ -31,7 +29,7 @@ mixplat_text = payment_state(*scoring.mixplat_text)
 mobilewallet_text = payment_state(*scoring.mobilewallet_text)
 alfabank_text = payment_state(*scoring.alfabank_text)
 PaySendBank_text = payment_state(*scoring.PaySendBank_text)
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+OceanBank_text = payment_state(*scoring.OceanBank_text)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 status = Robowebsites()
 webstatus = status.info()
@@ -40,7 +38,7 @@ webstatus = status.info()
 
 RabbitMq_text = scoring.RabbitMq_text
 
-PsStates_info = 'Состояние платежных систем:\n  {} \n   {} \n   {} \n   {}'.format(mixplat_text, mobilewallet_text, alfabank_text, PaySendBank_text)
+PsStates_info = 'Состояние платежных систем:\n  {} \n   {} \n   {} \n   {} \n {}'.format(mixplat_text, mobilewallet_text, alfabank_text, PaySendBank_text, OceanBank_text)
 
 check_param = 'Cписок контрольных параметров системы: на {}: \n\n{}8. {}\n9. RabbitMq {}{}\n10. Состояние роботов {}'.format(datetime.datetime.now(), operation, PsStates_info, *RabbitMq_text[0:len(RabbitMq_text)], botstate_text)
 
