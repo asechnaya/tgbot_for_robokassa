@@ -12,6 +12,7 @@ mixplat = 'https://admin.roboxchange.com/admin2/Face/PsCheck?PsLabel=Mixplat'
 alfabank = 'https://admin.roboxchange.com/admin2/Face/PsCheck?PsLabel=AlfaBank'
 RabbitMq = 'https://admin.roboxchange.com/admin2/Face/RabbitMqMonitoring'
 PaySendBank = 'https://admin.roboxchange.com/admin2/Face/PsCheck?PsLabel=PaySendBank'
+OceanBank = 'https://admin.roboxchange.com/admin2/Face/PsCheck?PsLabel=BANKOCEAN'
 
 
 def parsing_operation(file):
@@ -88,7 +89,9 @@ with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
     alfabank_f = requests.post(alfabank, cert=cert).text
     RabbitMq_f = requests.post(RabbitMq, cert=cert).text
     PaySendBank_f = requests.post(PaySendBank, cert=cert).text
+    OceanBank_f = requests.post(OceanBank, cert=cert).text
 
+#-----------------------------------------------------------------------
 
     botsstate_all = parsing_operation(botsstate_f)
     operations = parsing_operation(operations_f)
@@ -97,9 +100,9 @@ with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
     alfabank_text = parsing_operation(alfabank_f)
     RabbitMq_text = parsing_operation(RabbitMq_f)
     PaySendBank_text = parsing_operation(PaySendBank_f)
+    OceanBank_text = parsing_operation(OceanBank_f)
     #-----------------------------------------------
     bot_state_text = BotStateStatus(botsstate_all)
     all_bot_state_text = allBotStateStatus(botsstate_all)
 
     # -----------------------------------------------
-
