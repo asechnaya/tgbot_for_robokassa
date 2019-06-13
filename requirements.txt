@@ -4,3 +4,4 @@ pytelegrambotapi
 python-telegram-bot
 schedule
 pyOpenSSL
+html2text
