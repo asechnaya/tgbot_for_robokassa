@@ -37,4 +37,40 @@ Cписок контрольных параметров системы: на 201
 9. RabbitMq Статус:  ok  
 10. Состояние роботов ОК, но Сервис учетной системы:  работает😢
 ```
+##Для создания Service
 
+```
+[Unit]
+Description=robobot service
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python3 cdrobotelebot.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=MyTelegramBot
+After=multi-user.target
+
+[Service]
+User = user
+Type=idle
+WorkingDirectory=/home/user/robobot/
+ExecStart=/usr/bin/python3.6 -u robotelebot.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Для запуска
+
+sudo systemctl daemon-reload
+
+sudo systemctl enable robobot.service
+
+sudo systemctl start robobot.service
