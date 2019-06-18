@@ -14,7 +14,7 @@ payload = {
 
 ---
 
-Для запуска бота: _robotelebot.py_
+Для запуска бота: _python3 robotelebot.py_
 
 --- 
 
