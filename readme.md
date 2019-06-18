@@ -3,6 +3,14 @@
 <span style="color:purple">
 pfx_path = 'название.pfx'<br> 
 pfx_password = 'кодовое слово из цифр'
+botpath = 'bot.log'
+certpath = 'temp/cert.pem'
+dire ="temp/"
+
+payload = {
+   куки
+}
+
 </span>
 
 ---
