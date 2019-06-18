@@ -3,7 +3,11 @@
 import html2text
 import requests
 import use_pfx_with_requests
-from config import pfx_path as pfx_path, pfx_password as pfx_password
+from config import pfx_path as pfx_path, pfx_password as pfx_password, payload as payload, certpath as certpath
+
+s = requests.Session()
+s.cert =certpath
+cert = s.cert
 
 statistics = 'https://admin.roboxchange.com/admin2/Face/Statistics'
 botsstate = 'https://admin.roboxchange.com/admin2/Face/BotsState'
@@ -13,7 +17,7 @@ alfabank = 'https://admin.roboxchange.com/admin2/Face/PsCheck?PsLabel=AlfaBank'
 RabbitMq = 'https://admin.roboxchange.com/admin2/Face/RabbitMqMonitoring'
 PaySendBank = 'https://admin.roboxchange.com/admin2/Face/PsCheck?PsLabel=PaySendBank'
 OceanBank = 'https://admin.roboxchange.com/admin2/Face/PsCheck?PsLabel=BANKOCEAN'
-
+QiwiBank = 'https://admin.roboxchange.com/admin2/Face/PsCheck?PsLabel=QiwiBank'
 
 def parsing_operation(file):
     h = html2text.HTML2Text()
@@ -80,29 +84,85 @@ def allBotStateStatus(botsstate_all):
     my_string = my_string.join(my_list)
     return my_string
 
+def inv_skp():
+    with requests.Session() as s:
+        dd = s.post('http://support.robokassa.ru/ActiveIssues.aspx?', cookies=payload)
+    return parsing_operation(dd.text)
+
+
 # HOW TO USE:
-with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
-    operations_f = requests.post(statistics, cert=cert).text
-    botsstate_f = requests.post(botsstate, cert=cert).text
-    mobilewallet_f = requests.post(mobilewallet, cert=cert).text
-    mixplat_f = requests.post(mixplat, cert=cert).text
-    alfabank_f = requests.post(alfabank, cert=cert).text
-    RabbitMq_f = requests.post(RabbitMq, cert=cert).text
-    PaySendBank_f = requests.post(PaySendBank, cert=cert).text
-    OceanBank_f = requests.post(OceanBank, cert=cert).text
+# --------------------------------------------------------------------
 
-#-----------------------------------------------------------------------
+#-----------------------------------------------
+def inv_OceanBank_f():
+    #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
+    return requests.post(OceanBank, cert=cert).text
 
-    botsstate_all = parsing_operation(botsstate_f)
-    operations = parsing_operation(operations_f)
-    mixplat_text = parsing_operation(mixplat_f)
-    mobilewallet_text = parsing_operation(mobilewallet_f)
-    alfabank_text = parsing_operation(alfabank_f)
-    RabbitMq_text = parsing_operation(RabbitMq_f)
-    PaySendBank_text = parsing_operation(PaySendBank_f)
-    OceanBank_text = parsing_operation(OceanBank_f)
-    #-----------------------------------------------
-    bot_state_text = BotStateStatus(botsstate_all)
-    all_bot_state_text = allBotStateStatus(botsstate_all)
+def OceanBank_text():
+    return (parsing_operation(inv_OceanBank_f()))
+# --------------------------------------------------------------------
+def inv_alfabank_f():
+    #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
+    return requests.post(alfabank, cert=cert).text
 
-    # -----------------------------------------------
+def alfabank_text():
+    return (parsing_operation(inv_alfabank_f()))
+# --------------------------------------------------------------------
+
+def inv_PaySendBank_f():
+    #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
+    return requests.post(PaySendBank, cert=cert).text
+
+def PaySendBank_text():
+    return (parsing_operation(inv_PaySendBank_f()))
+
+# --------------------------------------------------------------------
+def inv_QiwiBank_f():
+    #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
+    return requests.post(QiwiBank, cert=cert).text
+
+def QiwiBank_text():
+    return (parsing_operation(inv_QiwiBank_f()))
+# # --------------------------------------------------------------------
+def inv_mixplat_f():
+    #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
+    return requests.post(mobilewallet, cert=cert).text
+
+def mixplat_text():
+    return (parsing_operation(inv_mixplat_f()))
+# --------------------------------------------------------------------
+def inv_mobilewallet_f():
+    #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
+    return requests.post(mobilewallet, cert=cert).text
+
+def mobilewallet_text():
+    return (parsing_operation(inv_mobilewallet_f()))
+# --------------------------------------------------------------------
+
+def inv_RabbitMq_f():
+    #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
+    return requests.post(RabbitMq, cert=cert).text
+def RabbitMq_text():
+    return (parsing_operation(inv_RabbitMq_f()))
+
+# ---------------------------------------------------------------------
+
+def inv_operations_f():
+    #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
+    return requests.post(statistics, cert=cert).text
+def operations_text():
+    return (parsing_operation(inv_operations_f()))
+# ---------------------------------------------------------------------
+
+def inv_botsstate_f():
+    #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
+    return requests.post(botsstate, cert=cert).text
+
+def all_bot_state_text():
+    return allBotStateStatus(parsing_operation(inv_botsstate_f()))
+
+def bot_state_text():
+    return BotStateStatus(parsing_operation(inv_botsstate_f()))
+
+# ---------------------------------------------------------------------
+
