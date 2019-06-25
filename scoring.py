@@ -96,14 +96,14 @@ def inv_skp():
 #-----------------------------------------------
 def inv_OceanBank_f():
     #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
-    return requests.post(OceanBank, cert=cert).text
+    return requests.post(OceanBank, cert=cert, timeout=(3.05, 27)).text
 
 def OceanBank_text():
     return (parsing_operation(inv_OceanBank_f()))
 # --------------------------------------------------------------------
 def inv_alfabank_f():
     #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
-    return requests.post(alfabank, cert=cert).text
+    return requests.post(alfabank, cert=cert, timeout=(3.05, 27)).text
 
 def alfabank_text():
     return (parsing_operation(inv_alfabank_f()))
@@ -111,7 +111,7 @@ def alfabank_text():
 
 def inv_PaySendBank_f():
     #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
-    return requests.post(PaySendBank, cert=cert).text
+    return requests.post(PaySendBank, cert=cert, timeout=(3.05, 27)).text
 
 def PaySendBank_text():
     return (parsing_operation(inv_PaySendBank_f()))
@@ -119,21 +119,21 @@ def PaySendBank_text():
 # --------------------------------------------------------------------
 def inv_QiwiBank_f():
     #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
-    return requests.post(QiwiBank, cert=cert).text
+    return requests.post(QiwiBank, cert=cert, timeout=(3.05, 27)).text
 
 def QiwiBank_text():
     return (parsing_operation(inv_QiwiBank_f()))
 # # --------------------------------------------------------------------
 def inv_mixplat_f():
     #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
-    return requests.post(mobilewallet, cert=cert).text
+    return requests.post(mobilewallet, cert=cert, timeout=(3.05, 27)).text
 
 def mixplat_text():
     return (parsing_operation(inv_mixplat_f()))
 # --------------------------------------------------------------------
 def inv_mobilewallet_f():
     #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
-    return requests.post(mobilewallet, cert=cert).text
+    return requests.post(mobilewallet, cert=cert, timeout=(3.05, 27)).text
 
 def mobilewallet_text():
     return (parsing_operation(inv_mobilewallet_f()))
@@ -141,7 +141,7 @@ def mobilewallet_text():
 
 def inv_RabbitMq_f():
     #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
-    return requests.post(RabbitMq, cert=cert).text
+    return requests.post(RabbitMq, cert=cert, timeout=(3.05, 27)).text
 def RabbitMq_text():
     return (parsing_operation(inv_RabbitMq_f()))
 
@@ -156,7 +156,7 @@ def operations_text():
 
 def inv_botsstate_f():
     #with use_pfx_with_requests.pfx_to_pem(pfx_path, pfx_password) as cert:
-    return requests.post(botsstate, cert=cert).text
+    return requests.post(botsstate, cert=cert, timeout=(3.05, 27)).text
 
 def all_bot_state_text():
     return allBotStateStatus(parsing_operation(inv_botsstate_f()))
