@@ -16,9 +16,7 @@ logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     )
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RabbitMq_text =RabbitMq_status()
-BOTTOKEN = '806792791:AAFCfdFRWf_Bg7kywHVuZBWdPsXY3pWiWHw' #мерч бот
-#505329679:AAGhgsa4ymrOTUWJgWwKZirTXBjLpqc1WYs
-#821731132:AAFQEQOBsequ3ljKlG_6KU_uv37hogODT_M
+BOTTOKEN = 'TOKEN'
 
 TIMER = 43200
 #-------------------------------------------
