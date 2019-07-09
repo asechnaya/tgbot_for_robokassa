@@ -15,17 +15,12 @@ logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     filename=botpath
                     )
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-BOTTOKEN = '806792791:AAFCfdFRWf_Bg7kywHVuZBWdPsXY3pWiWHw'
-# '806792791:AAFCfdFRWf_Bg7kywHVuZBWdPsXY3pWiWHw' #мерч бот
-# 505329679:AAGhgsa4ymrOTUWJgWwKZirTXBjLpqc1WYs  - ася
-# 821731132:AAFQEQOBsequ3ljKlG_6KU_uv37hogODT_M -- стандартный
-
+BOTTOKEN = 'TOKEN'
 TIMER = 43200
 # -------------------------------------------
 
-chatik = '-1001102275465'  # '-1001221778947' - мой чат, # '-1001102275465' - STS, 1349957221
-tr_knopka = '-1001349957221'  # '@channelrobo' #'-1001349957221'
-
+chatik = '-1001102275465'   
+tr_knopka = '-1001349957221' 
 
 def test_info(bot, update):
     update.message.reply_text(passportfiz_ident())
