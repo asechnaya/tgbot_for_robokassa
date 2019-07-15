@@ -71,6 +71,6 @@ WantedBy=multi-user.target
 
 sudo systemctl daemon-reload
 
-sudo systemctl enable robobot.service
+sudo systemctl enable ROBOBOT.service
 
-sudo systemctl start robobot.service
+sudo systemctl start ROBOBOT.service
