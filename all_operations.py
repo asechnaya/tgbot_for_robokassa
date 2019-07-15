@@ -1,137 +1,281 @@
-# -- coding: utf-8 -*-
-
-import logging
+import requests
 import time
-from datetime import time as timer
+import re
+from bs4 import BeautifulSoup
 
-from telegram import Sticker
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from comandtext import inv_check_param, inv_PState_text, inv_webstatus, inv_all_about_bot, SkpSupport_info, start_text, \
-    passportfiz_ident
-from config import botpath, BOTTOKEN, chatik, tr_knopka
-from all_operations import operation_text, BotStateStatus, allBotStateStatus, PSState_text, allPSState_text
-
-myphoto = 'https://s.tcdn.co/18f/4d5/18f4d57e-c910-3aef-9523-9a0d3bb60468/thumb128.png'
-# Логгирование
-logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO,
-                    filename=botpath
-                    )
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# '806792791:AAFCfdFRWf_Bg7kywHVuZBWdPsXY3pWiWHw' #мерч бот
-# 505329679:AAGhgsa4ymrOTUWJgWwKZirTXBjLpqc1WYs  - ася
-# 821731132:AAFQEQOBsequ3ljKlG_6KU_uv37hogODT_M -- стандартный
-
-TIMER = 43200
-# -------------------------------------------
-
-def passport_info(bot, update):
-    update.message.reply_text(passportfiz_ident())
-
-from telegram.utils.helpers import escape_markdown
-
-def test(bot, update):
-    #https://s.tcdn.co/18f/4d5/18f4d57e-c910-3aef-9523-9a0d3bb60468/thumb128.png
-    user_text= bot.send_photo(chat_id=update.message.chat_id, photo=myphoto)
-
-def start(bot, update):
-    update.message.reply_text(start_text)
-
-# присылает состояние сайтов и операций
-def callback_timer(bot, update):
-    bot.send_message(chat_id=tr_knopka,
-                     text=inv_check_param())
-    bot.send_message(chat_id=tr_knopka,
-                     text=inv_webstatus())
-
-# состояние сайтов и операций для чата стс
-def warning_all(bot, update):
-    bot.send_message(chat_id=chatik,
-                     text=inv_check_param())
-    bot.send_message(chat_id=chatik,
-                     text=inv_webstatus())
-
-def warning_web(bot, update):
-    update.message.reply_text(inv_webstatus())
-
-def warning_operation(bot, update):
-    update.message.reply_text(operation_text())
-
-def warning_bot(bot, update):
-    update.message.reply_text(inv_all_about_bot())
-
-def warning_PsStates_info(bot, update):
-    update.message.reply_text(inv_PState_text())
+from config import certpath, payload as payload
 
 
-def warning_SkpSupport_info(bot, update):
-    update.message.reply_text(SkpSupport_info())
-
-def warning_Support_info(bot, update):
-    bot.send_message(chat_id=chatik,  # '-1001102275465' - STS,
-                     text=SkpSupport_info())
-
-# рассказывает о ботах
-def botsstate(bot, update):
-    bot.send_message(chat_id=chatik,  # '-1001102275465' - STS,
-                     text=inv_all_about_bot())
-# -- все вместе
-def sys_check_param(bot, update):
-    print('hi')
-    update.message.reply_text(inv_check_param())
-
-def allstat_sts(bot, update):
-    bot.send_message(chat_id=chatik,  # '-1001102275465' - STS,
-                     text=inv_check_param())
-
-def printclock(bot, update):
-    bs = BotStateStatus()
-    ps = PSState_text()
-    keyword =['не работает', 'отключена']
-    for key in keyword:
-        if key in ps:
-            bot.send_message(chat_id='-1001290037577',  # '-1001102275465' - STS,
-            text=allPSState_text())
-            bot.send_photo(chat_id='-1001290037577', photo=myphoto)
-        if key in bs:
-            bot.send_message(chat_id='-1001290037577',  # '-1001102275465' - STS,
-                             text=BotStateStatus())
-            bot.send_photo(chat_id='-1001290037577', photo=myphoto)
+cert = certpath
 
 
-def main():
-    updater = Updater(BOTTOKEN)
-    dp = updater.dispatcher  # принимает входящие сообщения и посылает их куда-то
-    # инструкция
-    dp.add_handler(CommandHandler("start", start))
-    # Запускаем так, чтобы каждые 6 часов робот писал в чатик
-    updater.job_queue.run_daily(callback_timer, time=timer(6, 1, 17))
-    updater.job_queue.run_daily(callback_timer, time=timer(17, 55, 17))
-    updater.job_queue.run_repeating(printclock, interval=60, first=0)
-    # Команды для общего чатика СТС
-    # -------------------------
-    dp.add_handler(CommandHandler("allstat_sts", allstat_sts))  # '-1001102275465' - STS,
-    dp.add_handler(CommandHandler("warning_all", warning_all))  # '-1001102275465' - STS,
-    dp.add_handler(CommandHandler("stsbotsstate", botsstate))  # '-1001102275465' - STS,
-    dp.add_handler(CommandHandler("SkpSupport_sts", warning_Support_info)) # '-1001102275465' - STS,
-    # -------------------------
-    dp.add_handler(CommandHandler("warning", callback_timer))  # 'trev knopka',
-    # -------------------------
-    dp.add_handler(CommandHandler("SkpSupport", warning_SkpSupport_info))
-    dp.add_handler(CommandHandler("webstatus", warning_web))
-    dp.add_handler(CommandHandler("operation", warning_operation))
-    dp.add_handler(CommandHandler("warning_bot", warning_bot))
-    dp.add_handler(CommandHandler("PsStates", warning_PsStates_info))
-    dp.add_handler(CommandHandler("Support", warning_Support_info))
-    dp.add_handler(CommandHandler("sys_check_param", sys_check_param))
-    dp.add_handler(CommandHandler("test", passport_info))
-    dp.add_handler(CommandHandler("passport", passport_info))
-    dp.add_handler(MessageHandler(Filters.text, test))
-
-    updater.start_polling()  # отправь эти данные платформе телеграм
-    updater.idle()  # Жди, пока тебе телеграм что-то пришлет
+def operation_text():
+    with requests.Session() as s:
+        r = s.post('https://admin.roboxchange.com/admin2/Face/Statistics', cert=cert)
+    html_doc = r.text
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    newident = soup.select("tr > td")
+    mydic = []
+    for element in newident:
+        mydic.append(element.get_text(strip=True))
+    opertext = []
+    k = 0
+    numbers = [1, 2, 3, 4, 5, 6, 9, 10, 19, 20, 25, 26, 27, 28]
+    for i in numbers:
+        if i % 2 != 0:
+            k += 1
+            opertext.append(str(k))
+            opertext.append('. ')
+            opertext.append(mydic[i])
+            opertext.append(': ')
+        else:
+            opertext.append(mydic[i])
+            opertext.append('\n')
+    my_string = ''
+    my_string = my_string.join(opertext)
+    return my_string
 
 
-if __name__ == '__main__':
-    main()
+def allPSState_text():
+    with requests.Session() as s:
+        r = s.post('https://admin.roboxchange.com/admin2/Face/PsStates', cert=cert)
+    html_doc = r.text
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    k = soup.select("td.col-lg-4, td.col-lg-5")
+    mydic = []
+    for el in k:
+        mydic.append(el.get_text(strip=True))
+    d = {mydic[i]: mydic[i + 1] for i in range(0, len(mydic), 2)}
+    try:
+        del d['RussianStandardBank']
+        del d['A2C']
+        del d['EmptyPs']
+        del d['Биокоин']
+    except KeyError:
+        pass
+    my_string = """
+        AlfaBank:  {}
+        AsiaKzBank: {}
+        BANKOCEAN: {}
+        Mixplat: {}
+        PaySendBank: {}
+        QiwiBank: {}
+        Rapida: {}
+        ROBOKassa: {}
+        RIBPayToAnyReq: {}
+        YandexMerchant: {}
+    """.format(d['AlfaBank'], d['AsiaKzBank'], d['BANKOCEAN'], d['Mixplat'],
+               d['PaySendBank'], d['QiwiBank'], d['Rapida'], d['RIBPayToAnyReq'],
+               d['ROBOKassa'], d['YandexMerchant'])
+    return my_string
+
+
+def PSState_text():
+    with requests.Session() as s:
+        r = s.post('https://admin.roboxchange.com/admin2/Face/PsStates', cert=cert)
+    html_doc = r.text
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    k = soup.select("td.col-lg-4, td.col-lg-5")
+    mydic = []
+    for el in k:
+        mydic.append(el.get_text(strip=True))
+    d = {mydic[i]: mydic[i + 1] for i in range(0, len(mydic), 2)}
+    try:
+        del d['RussianStandardBank']
+        del d['A2C']
+        del d['EmptyPs']
+        del d['Биокоин']
+    except KeyError:
+        pass
+    my_string = """AlfaBank:  {}
+        AsiaKzBank: {}
+        BANKOCEAN: {}
+        Mixplat: {}
+        PaySendBank: {}
+        QiwiBank: {}
+        Rapida: {}
+        RIBPayToAnyReq: {}
+        VTB24: {}
+        YandexMerchant: {}
+    """.format(d['AlfaBank'], d['AsiaKzBank'], d['BANKOCEAN'], d['Mixplat'],
+               d['PaySendBank'], d['QiwiBank'], d['Rapida'], d['RIBPayToAnyReq'],
+               d['VTB24'], d['YandexMerchant'])
+    alarm = ''
+    warning = ''
+    for k, v in d.items():
+        if v == 'частично работает':
+            j = k + ' ' + v + '💤🔵' + '\n'
+            warning += j
+        if (v == 'не работает' or v == 'отключена'):
+            j = k + ' ' + v + '🛑' + '\n'
+            alarm += j
+        else:
+            pass
+    if alarm != '' and warning != '':
+        return (warning + ' ' + alarm)
+    elif (alarm != '' and warning == ''):
+        return (alarm)
+    elif (alarm == '' and warning != ''):
+        return ('ОК, но...\n' + warning)
+    else:
+        return 'ОК ✅\n'
+
+
+def RabbitMq_status():
+    with requests.Session() as s:
+        r = s.post('https://admin.roboxchange.com/admin2/Face/RabbitMqMonitoring', cert=cert)
+    html_doc = r.text
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    newident = soup.select("td", {"class": "col-lg-3 text-right"})
+    mydic = ''
+    for element in newident:
+        mydic = element.get_text(strip=True)
+    if mydic == 'ok':
+        mydic = ('ОК ✅')
+    else:
+        mydic.join('🛑')
+    return mydic
+
+
+def BotStateStatus():
+    with requests.Session() as s:
+        r = s.post('https://admin.roboxchange.com/admin2/Face/BotsState', cert=cert)
+    html_doc = r.text
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    newident = soup.select(".col-lg-9, .col-lg-3")
+    mydic = []
+    for element in newident:
+        mydic.append(element.get_text(strip=True))
+    d = {mydic[i]: mydic[i + 1] for i in range(0, len(mydic), 2)}
+    bttext = {
+        'Автомат': d['Автомат:'],
+        'Сервис запуска ботов': d['Сервис запуска ботов:'],
+        'Сервис подтверждений OCEAN': d['Сервис подтверждений OCEAN:'],
+        'Сервис учетной системы': d['Сервис учетной системы:']}
+    alarm = ''
+    warning = ''
+    for k, v in bttext.items():
+        if v == 'частично работает' or v == 'работает медленно':
+            j = k + ': ' + v + '😢' + '\n'
+            warning += j
+        if (v == 'не работает' or v == 'отключена'):
+            j = k + ': ' + v + '🛑' + '\n'
+            alarm += j
+        else:
+            pass
+    if alarm != '' and warning != '':
+        return (warning + ' ' + alarm)
+    elif (alarm != '' and warning == ''):
+        return (alarm)
+    elif (alarm == '' and warning != ''):
+        return (warning)
+    else:
+        return 'ОК ✅\n'
+
+
+def allBotStateStatus():
+    with requests.Session() as s:
+        r = s.post('https://admin.roboxchange.com/admin2/Face/BotsState', cert=cert)
+    html_doc = r.text
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    newident = soup.select(".col-lg-9, .col-lg-3")
+    mydic = []
+    for element in newident:
+        mydic.append(element.get_text(strip=True))
+    d = {mydic[i]: mydic[i + 1] for i in range(0, len(mydic), 2)}
+    my_string = """
+    Автомат: {}
+    Сервис запуска ботов: {}
+    Сервис подтверждений OCEAN: {}
+    Сервис учетной системы: {}
+    """.format(d['Автомат:'], d['Сервис запуска ботов:'], d['Сервис подтверждений OCEAN:'],
+               d['Сервис учетной системы:'])
+    return my_string
+
+
+def webcheck(d):
+    newd = {}
+    for key, value in d.items():
+        try:
+            r = requests.get(value).status_code
+            if r == 200 or r == 403:
+                newd[key] = 'OK ✅'
+            else:
+                newd[key] = {r: '😱😱❗😱😱❗😱😱 СЛОМАЛОСЬ\n 😱😱❗😱😱❗😱😱'}
+        except EnvironmentError as e:
+            newd[key] = {e: '😱😱❗😱😱❗😱😱'}
+    return newd
+
+
+def web_info(websites):
+    d = webcheck(websites)
+    mystrings = ''
+    i = 0
+    for k, v in d.items():
+        i += 1
+        mystrings += str(k) + ': ' + str(v) + '\n'
+    return mystrings
+
+
+def inv_passfizident():
+    from datetime import date, timedelta
+    yesterday = date.today() - timedelta(days=0)
+    today = date.today() + timedelta(days=1)
+    dateTimeAfter = yesterday.strftime("%d.%m.20%y")
+    #print(dateTimeAfter)
+    dateTimeUntil = today.strftime("%d.%m.20%y")
+    #print(dateTimeUntil)
+    payload = {
+        'Length': 13,
+        'reqType': 'identification',
+        'pageNumber': 1,
+        'sortDirection': 'CreatedAsc',
+        'assigned': 'NULL',
+        'merchantType': 'MerchantOff',
+        'PartnerCountry': 'RU',
+        'PartnerIdentifier': '',
+        'ShopIdentifier': '',
+        'reqState': 92,
+        'DateType': 'modified',
+        'dateTimeAfter': dateTimeAfter,
+        'dateTimeUntil': dateTimeUntil,
+        'fetchRows': 30,
+        'X-Requested-With': 'XMLHttpRequest'
+    }
+
+    data='reqType=identification&pageNumber=1&sortDirection=CreatedAsc&assigned=NULL&merchantType=MerchantOff&PartnerCountry=RU&PartnerIdentifier=&ShopIdentifier=&reqState=-1&DateType=modified&dateTimeAfter=07.07.2019&dateTimeUntil=08.07.2019&fetchRows=30&X-Requested-With=XMLHttpRequest'
+    with requests.Session() as s:
+        r = s.post('https://admin.roboxchange.com/admin2/ClientRequests/List?Length=13', data=payload, cert=cert)
+    html_doc = r.text
+
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    newident = soup.find_all("td", {"class": "hideme"}, string=re.compile('Identification_Subject'))
+    nident = soup.find("span", {"style": "float:right;"}, text=re.compile('Всего заявок')).get_text(strip=True)
+    i = 0
+    mydict={}
+    for element in newident:
+        i += 1
+        #print(repr(element.get_text(strip=True)))
+    print(nident)
+    return 'Физиков идентифицировано по паспорту за сегодня: {}'.format(i)
+
+
+def inv_skp():
+    with requests.Session() as s:
+        r = s.post('http://support.robokassa.ru/ActiveIssues.aspx?', cookies=payload)
+    html_doc = r.text
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    newident = soup.select("ul > a")
+    mydic = []
+    for element in newident:
+        mydic.append(element.get_text(strip=True))
+    opertext = []
+    i = 0
+    for item in mydic:
+        opertext.append(item)
+        opertext.append('\n')
+    my_string = ''
+    my_string = my_string.join(opertext)
+    return my_string
+
 
