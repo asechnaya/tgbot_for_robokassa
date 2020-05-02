@@ -4,12 +4,20 @@
 pfx_path = 'название.pfx'<br> 
 pfx_password = 'кодовое слово из цифр'<br> 
 botpath = 'bot.log'<br> 
-certpath = 'temp/cert.pem'<br> 
+cert = 'temp/cert.pem'<br> 
 dire ="temp/"<br> 
 payload = {
    куки
 }
 
+
+REQUEST_KWARGS = {
+    'proxy_url': 'socks5h://наш адрес:9999',
+    'urllib3_proxy_kwargs': {
+        'username': 'telega',
+        'password': 'telega_pass',
+    }
+}
 </span>
 
 ---
