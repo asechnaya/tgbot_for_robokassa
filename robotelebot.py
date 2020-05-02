@@ -4,9 +4,11 @@ from datetime import time as timer
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from config import botpath, BOTTOKEN, chatik, tr_knopka, REQUEST_KWARGS
-from comandtext import inv_check_param, inv_PState_text, inv_webstatus, inv_all_about_bot
-from comandtext import SkpSupport_info, start_text, passportfiz_ident
-from all_operations import operation_text, BotStateStatus, PSState_text, allPSState_text
+from bot_commands import print_payment_systems_info, print_websites_status
+from bot_commands import send_sts_bot_states, send_sts_control_points_and_webs, send_sts_control_points
+from bot_commands import control_points_timer, check_bs_and_ps_every_300s, kazakhstan_count_operations
+from bot_commands import SkpSupport_info, print_passports_identify, print_control_points
+from bot_commands import start, kazakhstan_30_min, print_day_statistics, print_bots_statuses
 
 myphoto = 'https://s.tcdn.co/18f/4d5/18f4d57e-c910-3aef-9523-9a0d3bb60468/thumb128.png'
 # Логгирование
@@ -20,92 +22,15 @@ TIMER = 43200
 # -------------------------------------------
 
 
-def passport_info(bot, update):
-    update.message.reply_text(passportfiz_ident())
-
-from telegram.utils.helpers import escape_markdown
-
 def test(bot, update):
-    user_text= bot.send_photo(chat_id=update.message.chat_id, photo=myphoto)
+    #https://s.tcdn.co/18f/4d5/18f4d57e-c910-3aef-9523-9a0d3bb60468/thumb128.png
+    user_text = bot.send_photo(chat_id=update.message.chat_id, photo=myphoto)
 
-def start(bot, update):
-    update.message.reply_text(start_text)
-    print(start_text)
-
-
-# присылает состояние сайтов и операций
-def callback_timer(bot, update):
-    bot.send_message(chat_id=tr_knopka,
-                     text=inv_check_param())
-    bot.send_message(chat_id=tr_knopka,
-                     text=inv_webstatus())
-
-
-# состояние сайтов и операций для чата стс
-def warning_all(bot, update):
-    bot.send_message(chat_id=chatik,
-                     text=inv_check_param())
-    bot.send_message(chat_id=chatik,
-                     text=inv_webstatus())
-
-
-def warning_web(bot, update):
-    update.message.reply_text(inv_webstatus())
-
-
-def warning_operation(bot, update):
-    update.message.reply_text(operation_text())
-
-
-def warning_bot(bot, update):
-    update.message.reply_text(inv_all_about_bot())
-
-
-def warning_PsStates_info(bot, update):
-    update.message.reply_text(inv_PState_text())
-
-
-def warning_SkpSupport_info(bot, update):
-    update.message.reply_text(SkpSupport_info())
-
-
-def warning_Support_info(bot, update):
-    bot.send_message(chat_id=chatik,  
+def sts_warning_Support_info(bot, update):
+    bot.send_message(chat_id=chatik,  # '-1001102275465' - STS,
                      text=SkpSupport_info())
 
-
-# рассказывает о ботах
-def botsstate(bot, update):
-    bot.send_message(chat_id=chatik,   
-                     text=inv_all_about_bot())
-
-
-# -- все вместе
-def sys_check_param(bot, update):
-    print('sys_check_param')
-    update.message.reply_text(inv_check_param())
-
-
-
-def allstat_sts(bot, update):
-    bot.send_message(chat_id=chatik,  
-                     text=inv_check_param())
-
-def printclock(bot, update):
-    bs = BotStateStatus()
-    ps = PSState_text()
-    keyword =['не работает', 'отключена']
-    for key in keyword:
-        if key in ps:
-            bot.send_message(chat_id=chatik,  
-            text=allPSState_text())
-            bot.send_photo(chat_id=chatik, photo=myphoto)
-        if key in bs:
-            bot.send_message(chat_id=chatik,  
-                             text=BotStateStatus())
-            bot.send_photo(chat_id=chatik, photo=myphoto)
-
-
+    
 def main():
     updater = Updater(BOTTOKEN, request_kwargs=REQUEST_KWARGS)
     dp = updater.dispatcher  # принимает входящие сообщения и посылает их куда-то
