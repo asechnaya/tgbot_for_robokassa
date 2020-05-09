@@ -20,6 +20,12 @@ REQUEST_KWARGS = {
 }
 </span>
 
+
+
+В файл _sypport/payload.py_ вписываем 
+payload = {
+   авторизация
+}
 ---
 
 Для запуска бота: _python3 robotelebot.py_
