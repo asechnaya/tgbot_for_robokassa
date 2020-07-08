@@ -1,8 +1,11 @@
-telegram
+pytz
+telegram 
+beautifulsoup4
 requests==2.21.0
+requests-oauthlib==1.2.0
 pytelegrambotapi
-python-telegram-bot
-schedule
 pyOpenSSL
 html2text
-tempfile 
+pyvirtualdisplay
+PySocks
+python-telegram-bot[socks]
