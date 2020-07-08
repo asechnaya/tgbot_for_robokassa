@@ -42,35 +42,37 @@ def sts_warning_Support_info(bot, update):
 
 def kazakhstan_30_min(bot, update):
     dn = datetime.now()
-    dn_msk = dn.astimezone(pytz.timezone(kazzone))
-    if dn_msk in range(9, 21):
+    dn_kz = dn.astimezone(pytz.timezone(kazzone)).strftime('%H')
+    if int(dn_kz) > 8:
+        print('cool')
         kazakhstan_operations_counter()
-        if kazakhstan_operations_counter() > 1:
-            print("Все в порядке")
+        if kazakhstan_operations_counter()[0] > 1:
+            print(f"Все в порядке {kazakhstan_operations_counter()[1]}")
         else:
-            print("Нет успешных операций за час!")
+            print(f"@Anton_Rokhlin Нет успешных операций за час! {kazakhstan_operations_counter()[1]}")
             bot.send_message(chat_id=kz_chat,
-                             text="@Anton_Rokhlin Нет успешных операций за час!")
+                             text=f"@Anton_Rokhlin Нет успешных операций за час! {kazakhstan_operations_counter()[1]}")
 
 
 def russia_paused_30_min(bot, update):
     dn = datetime.now()
-    dn_msk = dn.astimezone(pytz.timezone(moscow_zone))
-    if dn_msk in range(9, 21):
+    dn_msk = dn.astimezone(pytz.timezone(moscow_zone)).strftime('%H')
+    if int(dn_msk) > 8:
         paused = paused_operations()
-        if paused > 0:
+        if int(paused) > 0:
             bot.send_message(chat_id=chatik,
-                             text=f"Зависшие операции, пацаны! {paused} штук")
+                             text=f"Приостановленные операции, пацаны! {paused} штук")
 
 
 def kazakhstan_count_operations(bot, update):
-    kazakhstan_operations_counter()
-    if kazakhstan_operations_counter() > 1:
-        print("Все в порядке")
-        update.message.reply_text(f"Все хорошо, {kazakhstan_operations_counter()} операций")
+    if kazakhstan_operations_counter()[0] > 1:
+        print(f"Все хорошо, {kazakhstan_operations_counter()[0]} операций по оплате: "
+              f" {kazakhstan_operations_counter()[1]}")
+        update.message.reply_text(f"Все хорошо, {kazakhstan_operations_counter()[0]} операций по оплате: "
+                                  f" {kazakhstan_operations_counter()[1]}")
     else:
         print("Нет успешных операций за час!")
-        update.message.reply_text("Нет успешных операций за час!")
+        update.message.reply_text("@Anton_Rokhlin Нет успешных операций за час!")
 
 
 def print_day_statistics(bot, update):
