@@ -3,7 +3,7 @@ from datetime import time as timer
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-from config import botpath, BOTTOKEN, chatik, tr_knopka, REQUEST_KWARGS
+from config import botpath, BOTTOKEN, REQUEST_KWARGS
 from bot_commands import print_payment_systems_info, print_websites_status
 from bot_commands import send_sts_bot_states, send_sts_control_points_and_webs, send_sts_control_points
 from bot_commands import control_points_timer, check_bs_and_ps_every_300s, kazakhstan_count_operations
@@ -38,20 +38,18 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     # Запускаем так, чтобы каждые 6 часов робот писал в чатик
     updater.job_queue.run_daily(control_points_timer, time=timer(6, 1, 17))
-    updater.job_queue.run_daily(control_points_timer, time=timer(18, 35, 17))
+    updater.job_queue.run_daily(control_points_timer, time=timer(18, 31, 17))
     updater.job_queue.run_repeating(check_bs_and_ps_every_300s, interval=300, first=0)
     updater.job_queue.run_repeating(kazakhstan_30_min, interval=1800, first=0)
     updater.job_queue.run_repeating(russia_paused_30_min, interval=1800, first=0)
     # Команды для общего чатика СТС
     # -------------------------
-    dp.add_handler(CommandHandler("allstat_sts", send_sts_control_points))  
-    dp.add_handler(CommandHandler("warning_all", send_sts_control_points_and_webs)) 
-    dp.add_handler(CommandHandler("stsbotsstate", send_sts_bot_states)) 
-    dp.add_handler(CommandHandler("SkpSupport_sts", sts_warning_Support_info))
-     # 'trev knopka',
+    dp.add_handler(CommandHandler("allstat_sts", send_sts_control_points))  # '-1001102275465' - STS,
+    dp.add_handler(CommandHandler("warning_all", send_sts_control_points_and_webs))  # '-1001102275465' - STS,
+    dp.add_handler(CommandHandler("stsbotsstate", send_sts_bot_states))  # '-1001102275465' - STS,
+    dp.add_handler(CommandHandler("SkpSupport_sts", sts_warning_Support_info)) # '-1001102275465' - STS,
     # -------------------------
-    dp.add_handler(CommandHandler("warning", control_points_timer)) 
-     # автоответ
+    dp.add_handler(CommandHandler("warning", control_points_timer))  # 'trev knopka',
     # -------------------------
     dp.add_handler(CommandHandler("operation", print_day_statistics))
     dp.add_handler(CommandHandler("warning_bot", print_bots_statuses))
@@ -63,10 +61,9 @@ def main():
 
     dp.add_handler(CommandHandler("SkpSupport", print_skp))
     dp.add_handler(CommandHandler("kz", kazakhstan_count_operations))
-    dp.add_handler(MessageHandler(Filters.text, test))
 
-    updater.start_polling()  
-    updater.idle()  
+    updater.start_polling()  # отправь эти данные платформе телеграм
+    updater.idle()  # Жди, пока тебе телеграм что-то пришлет
 
 
 if __name__ == '__main__':
