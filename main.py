@@ -1,5 +1,6 @@
 import logging
-from datetime import time as timer
+import pytz
+from datetime import time as timer, datetime
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
@@ -37,8 +38,8 @@ def main():
     # инструкция
     dp.add_handler(CommandHandler("start", start))
     # Запускаем так, чтобы каждые 6 часов робот писал в чатик
-    updater.job_queue.run_daily(control_points_timer, time=timer(6, 1, 17))
-    updater.job_queue.run_daily(control_points_timer, time=timer(18, 31, 17))
+    updater.job_queue.run_daily(control_points_timer, time=timer(9, 1, 17))
+    updater.job_queue.run_daily(control_points_timer, time=timer(21, 1, 17))
     updater.job_queue.run_repeating(check_bs_and_ps_every_300s, interval=300, first=0)
     updater.job_queue.run_repeating(kazakhstan_30_min, interval=1800, first=0)
     updater.job_queue.run_repeating(russia_paused_30_min, interval=1800, first=0)
@@ -47,7 +48,7 @@ def main():
     dp.add_handler(CommandHandler("allstat_sts", send_sts_control_points))  # '-1001102275465' - STS,
     dp.add_handler(CommandHandler("warning_all", send_sts_control_points_and_webs))  # '-1001102275465' - STS,
     dp.add_handler(CommandHandler("stsbotsstate", send_sts_bot_states))  # '-1001102275465' - STS,
-    dp.add_handler(CommandHandler("SkpSupport_sts", sts_warning_Support_info)) # '-1001102275465' - STS,
+    dp.add_handler(CommandHandler("SkpSupport_sts", sts_warning_Support_info))  # '-1001102275465' - STS,
     # -------------------------
     dp.add_handler(CommandHandler("warning", control_points_timer))  # 'trev knopka',
     # -------------------------
