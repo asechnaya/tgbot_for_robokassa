@@ -1,0 +1,24 @@
+/temp
+/.pytest_cache
+AMakarovskaya.pfx
+/config.py
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+#IDEA
+.idea
