@@ -23,5 +23,5 @@ def websites_status():
                 status[key] = {r: '😱😱❗😱😱❗😱😱 СЛОМАЛОСЬ\n 😱😱❗😱😱❗😱😱'}
         except EnvironmentError as e:
             status[key] = {e: '😱😱❗😱😱❗😱😱'}
-    status = ' '.join([f'{key}: {value}\n' for key, value in status.items()])
+    status = ''.join([f'{key}: {value}\n' for key, value in status.items()])
     return status

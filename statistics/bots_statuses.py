@@ -25,3 +25,4 @@ def bot_statuses():
         f"\nСервис учетной системы: {bs['Сервис учетной системы:']}\n"
     print(bots_state)
     return bots_state
+

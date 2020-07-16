@@ -1,11 +1,9 @@
-import datetime
 from datetime import datetime, timedelta
 
 
 def payload():
-    this_time = datetime.today().strftime("%d.%m.%Y %H:%M")
-    minus_hour = datetime.today() + timedelta(minutes=-30)
-    minus_hour = minus_hour.strftime("%d.%m.%Y %H:%M")
+    this_time = (datetime.utcnow() + timedelta(days=1)).strftime("%d.%m.%Y %H:%M")
+    minus_hour = (datetime.utcnow() + timedelta(minutes=-30)).strftime("%d.%m.%Y %H:%M")
 
     data = {"SpecialOpFilter": "Finished",
             "Filter[Limit]": 100,
@@ -14,7 +12,9 @@ def payload():
             "Filter[DateTill]": this_time,
             "Filter[IncAccountFull]": False,
             "Filter[OutAccountFull]": False,
-            "Filter[IncCurr]": "BNT",
+            "Filter[IncCurr]": "",
+            "Filter[OutCurr]": "BNT",
             "Filter[IncludeAccounts]": False,
             "Filter[Processes]": ''}
     return data
+

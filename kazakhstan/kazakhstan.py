@@ -14,11 +14,7 @@ def kazakhstan_operations_counter():
         opers = []
         response = s.post(link, data=payload(), cert=cert, headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')
-        # print(soup)
         for entry in soup.select("tr > td:nth-child(2) > a"):
             entry_number += 1
             opers.append(entry.get_text(strip=True))
         return entry_number, opers
-
-
-print(kazakhstan_operations_counter())
