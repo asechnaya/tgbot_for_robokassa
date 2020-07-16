@@ -33,7 +33,7 @@ def print_skp(bot, update):
     print(support_data())
 
 
-def sts_warning_Support_info(bot, update):
+def sts_warning_support_info(bot, update):
     bot.send_message(chat_id=chatik,
                      text=f"*Для клиентской поддержки на {ourtime()}*\n{support_data()}",
                      parse_mode=ParseMode.MARKDOWN)
@@ -43,21 +43,20 @@ def sts_warning_Support_info(bot, update):
 def kazakhstan_30_min(bot, update):
     dn = datetime.now()
     dn_kz = dn.astimezone(pytz.timezone(kazzone)).strftime('%H')
-    if int(dn_kz) > 8:
-        print('cool')
+    if int(dn_kz) > 6:
         kazakhstan_operations_counter()
-        if kazakhstan_operations_counter()[0] > 1:
+        if kazakhstan_operations_counter()[0] > 0:
             print(f"Все в порядке {kazakhstan_operations_counter()[1]}")
         else:
-            print(f"@Anton_Rokhlin Нет успешных операций за час! {kazakhstan_operations_counter()[1]}")
+            print(f"@Anton_Rokhlin Нет успешных операций за час! Последняя {kazakhstan_operations_counter()[1]}")
             bot.send_message(chat_id=kz_chat,
-                             text=f"@Anton_Rokhlin Нет успешных операций за час! {kazakhstan_operations_counter()[1]}")
+                             text=f"@Anton_Rokhlin Нет успешных операций за полчаса!")
 
 
 def russia_paused_30_min(bot, update):
     dn = datetime.now()
     dn_msk = dn.astimezone(pytz.timezone(moscow_zone)).strftime('%H')
-    if int(dn_msk) > 8:
+    if 22 > int(dn_msk) > 8:
         paused = paused_operations()
         if int(paused) > 0:
             bot.send_message(chat_id=chatik,
@@ -71,8 +70,8 @@ def kazakhstan_count_operations(bot, update):
         update.message.reply_text(f"Все хорошо, {kazakhstan_operations_counter()[0]} операций по оплате: "
                                   f" {kazakhstan_operations_counter()[1]}")
     else:
-        print("Нет успешных операций за час!")
-        update.message.reply_text("@Anton_Rokhlin Нет успешных операций за час!")
+        print(f"Нет успешных операций за час!  Последняя {kazakhstan_operations_counter()[1]}")
+        update.message.reply_text(f"Нет успешных операций за полчаса!")
 
 
 def print_day_statistics(bot, update):
