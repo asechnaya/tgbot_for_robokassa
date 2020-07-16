@@ -19,10 +19,9 @@ def bot_statuses():
     for entry in soup.select("tr > td.r.nw.col-lg-3"):
         column_2.append(entry.get_text(strip=True))
     bs = dict(zip(column_1, column_2))
-    bots_state = f"Автомат: {bs['Автомат:']}\n" \
-                 f"Сервис запуска ботов: {bs['Сервис запуска ботов:']}\n" \
-                 f"Сервис подтверждений OCEAN: {bs['Сервис подтверждений OCEAN:']}\n" \
-                 f"Сервис учетной системы: {bs['Сервис учетной системы:']}\n"
+    bots_state = f"Автомат: {bs['Автомат:']}" \
+        f"\nCервис запуска ботов: {bs['Сервис запуска ботов:']}" \
+        f"\nСервис подтверждений OCEAN: {bs['Сервис подтверждений OCEAN:']}" \
+        f"\nСервис учетной системы: {bs['Сервис учетной системы:']}\n"
     print(bots_state)
     return bots_state
-
