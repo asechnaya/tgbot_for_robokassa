@@ -1,10 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 from _datetime import datetime, timedelta
-from kazakhstan.payload import payload
 
-# from config import cert
-cert = "../temp/cert.pem"
+from config import cert
+# cert = "../temp/cert.pem"
 
 
 link = 'https://admin.roboxchange.com/admin2/Operations/Search'
@@ -30,9 +29,9 @@ data = {"SpecialOpFilter": "Finished",
 def payment_systems_statuses():
     with requests.Session() as s:
         entry_number = 0  # счетчик числа записей с номерами операций
-        response = s.post(link, data=payload(), cert=cert, headers=headers)
+        response = s.post(link, data=data, cert=cert, headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')
         for entry in soup.select("tr > td:nth-child(2) > a"):
-            print(entry.get_text(strip=True))
+            # print(entry.get_text(strip=True))
             entry_number += 1
         return entry_number

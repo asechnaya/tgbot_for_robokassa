@@ -2,6 +2,7 @@
 /.pytest_cache
 AMakarovskaya.pfx
 /config.py
+config_work.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -19,6 +20,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+support/payload.py
 
 #IDEA
 .idea

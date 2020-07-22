@@ -1,33 +1,31 @@
 import logging
 from datetime import time as timer
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler
 
-from config import botpath, BOTTOKEN, REQUEST_KWARGS
+from config import botpath, BOTTOKEN
 from bot_commands import print_payment_systems_info, print_websites_status
 from bot_commands import send_sts_bot_states, send_sts_control_points_and_webs, send_sts_control_points
 from bot_commands import control_points_timer, check_bs_and_ps_every_300s, kazakhstan_count_operations
 from bot_commands import print_passports_identify, print_control_points, print_skp, sts_warning_support_info
 from bot_commands import start, kazakhstan_30_min, print_day_statistics, print_bots_statuses, russia_paused_30_min
+from bot_commands import test
 
-myphoto = 'https://s.tcdn.co/18f/4d5/18f4d57e-c910-3aef-9523-9a0d3bb60468/thumb128.png'
 # Логгирование
-logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
+# FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
+FORMAT = '%(asctime)-15s %(name)s - %(levelname)s - %(message)s '
+logging.basicConfig(format=FORMAT,
+                    datefmt='%m-%d %H:%M',
                     level=logging.INFO,
                     filename=botpath
                     )
 
-
-TIMER = 43200
-# -------------------------------------------
-
-def test(bot, update):
-    user_text = bot.send_photo(chat_id=update.message.chat_id, photo=myphoto)
-    # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
+logger = logging.getLogger('main_application')
 
 
 def main():
-    updater = Updater(BOTTOKEN, request_kwargs=REQUEST_KWARGS)
+    logger.info('Bot has launched')
+    updater = Updater(BOTTOKEN) #Ранее: , request_kwargs=REQUEST_KWARGS)
     dp = updater.dispatcher  # принимает входящие сообщения и посылает их куда-то
     # инструкция
     dp.add_handler(CommandHandler("start", start))
@@ -62,5 +60,6 @@ def main():
 
 
 if __name__ == '__main__':
-    print('Начало')
+    logger.info('Start point')
     main()
+

@@ -4,8 +4,7 @@ from tempfile import NamedTemporaryFile
 
 from OpenSSL import crypto
 
-
-dire ="temp\\"
+from config import dire as dire
 
 
 @contextlib.contextmanager
